@@ -18,28 +18,38 @@ dropLastDigit a
 -- Exercise 2 -----------------------------------------
 
 toRevDigits :: Integer -> [Integer]
+toRevDigits 0 = []
 toRevDigits a
     | length (show a) == 1 = [a]
+    | a < 0 = []
     | otherwise = lastDigit(a) : toRevDigits(dropLastDigit(a)) 
 -- Exercise 3 -----------------------------------------
 
 -- Double every second number in a list starting on the left.
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther = undefined
+doubleEveryOther [] = []
+doubleEveryOther [a,b] = [a*2,b]
+doubleEveryOther (x:s:xs) = (x*2):s:doubleEveryOther(xs) 
+
 
 -- Exercise 4 -----------------------------------------
 
 -- Calculate the sum of all the digits in every Integer.
 sumDigits :: [Integer] -> Integer
-sumDigits = undefined
+sumDigits a = foldr (+) 0 (map sumDigit a) 
 
+sumDigit :: Integer -> Integer
+sumDigit a
+    | length(show(a)) == 1 = a
+    | otherwise  = (a `div` 10) + (a `mod` 10) 
 
 -- Exercise 5 -----------------------------------------
 
 -- Validate a credit card number using the above functions.
 luhn :: Integer -> Bool
-luhn = undefined
-
+luhn a
+    | mod (sumDigits(reverse(doubleEveryOther(reverse(toRevDigits a))))) 10 == 0 = True
+    | otherwise = False
 -- Exercise 6 -----------------------------------------
 
 -- Towers of Hanoi for three pegs
